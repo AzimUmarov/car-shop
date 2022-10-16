@@ -14,7 +14,8 @@ export class UserController {
     async createUser({name, email, password}: CreateUserDto){
         const user = await this.authService.signup(name, email, password);
         return user;
-    }
+
+        }
 
     @Post("/login")
     async login( {email, password} : UserDto){
