@@ -1,7 +1,7 @@
 import {Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Query} from '@nestjs/common';
-import { AuthService } from './auth.service'
+import {AuthService} from './auth.service'
 import {CreateUserDto} from "./dtos/create-user.dto";
-import { UserDto } from "./dtos/user.dto";
+import {UserDto} from "./dtos/user.dto";
 import {UserService} from "./user.service";
 import {UpdateUserDto} from "./dtos/update-user.dto";
 
@@ -11,21 +11,18 @@ export class UserController {
     constructor(private authService: AuthService, private userService: UserService){}
 
     @Post("/signup")
-    async createUser({name, email, password}: CreateUserDto){
-        const user = await this.authService.signup(name, email, password);
-        return user;
-
-        }
+    async createUser(@Body() {name, email, password}: CreateUserDto){
+        return await this.authService.signup(name, email, password);
+    }
 
     @Post("/login")
-    async login( {email, password} : UserDto){
-        const user = await this.authService.login(email, password);
-        return user;
+    async login(@Body() {email, password} : UserDto){
+        return await this.authService.login(email, password);
     }
 
     @Get('/:id')
     async findUser(@Param('id') id: string) {
-        const user = await this.userService.findOne(parseInt(id));
+        const user = await this.userService.find(parseInt(id));
         if (!user)
             throw new NotFoundException('user not found');
 
@@ -34,7 +31,7 @@ export class UserController {
 
     @Get()
     findAllUsers(@Query('email') email: string) {
-        return this.userService.find(email);
+        return this.userService.findByEmail(email);
     }
 
     @Delete('/:id')

@@ -5,7 +5,6 @@ import { UserModule } from './user/user.module';
 import { CarModule } from './car/car.module';
 import { ShopCartModule } from './shop-cart/shop-cart.module';
 import {TypeOrmModule} from "@nestjs/typeorm";
-import {AuthService} from "./user/auth.service";
 import {User} from "./user/user.entity";
 
 
@@ -19,6 +18,6 @@ import {User} from "./user/user.entity";
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, AuthService],
+  providers: [AppService],
 })
 export class AppModule {}
