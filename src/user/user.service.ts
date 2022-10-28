@@ -19,9 +19,15 @@ export class UserService {
         }
         return this.repository.findOneBy({ id });
     }
+
+    getAll(): Promise<User[]>{
+        return this.repository.find();
+    }
+
     findByEmail(email: string): Promise<User | null> {
         return this.repository.findOneBy({ email });
     }
+
     async update(id: number, attributes: Partial<UpdateUserDto>){
         const user = await this.find(id);
         if (!user) {

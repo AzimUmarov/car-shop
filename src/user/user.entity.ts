@@ -10,6 +10,8 @@ import {
 } from 'typeorm';
 import {randomBytes, scrypt as _scrypt} from "crypto";
 import {promisify} from "util";
+import {MaxLength} from "class-validator";
+import {encrypt} from "../utils/passwordCrypto";
 
 const scrypt = promisify(_scrypt);
 
@@ -26,11 +28,10 @@ export class User {
     async hashPassword() {
         if(this.password.length > 32) return;
 
-        const salt = randomBytes(8).toString("hex");
-        const hash = (await scrypt(this.password, salt, 32)) as Buffer;
-        this.password =  salt + "." + hash.toString("hex");
+        this.password =  await encrypt(this.password);
     }
     @Column()
+    @MaxLength(32)
     password: string;
 
     @Column()
