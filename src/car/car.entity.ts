@@ -10,13 +10,13 @@ export class Car {
     model: string;
 
     @Column()
-    year: string;
+    year: number;
 
     @Column()
-    price: string;
+    price: number;
 
     @Column()
-    mileage: string;
+    mileage: number;
 
     @AfterInsert()
     logInsert() {

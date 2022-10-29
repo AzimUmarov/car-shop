@@ -5,13 +5,15 @@ import {
     BeforeInsert,
     BeforeUpdate,
     Column,
-    Entity,
+    Entity, OneToMany,
     PrimaryGeneratedColumn
 } from 'typeorm';
 import {randomBytes, scrypt as _scrypt} from "crypto";
 import {promisify} from "util";
 import {MaxLength} from "class-validator";
 import {encrypt} from "../utils/passwordCrypto";
+import {Car} from "../car/car.entity";
+import ShopCart from "../shop-cart/shop-cart.entity";
 
 const scrypt = promisify(_scrypt);
 
@@ -39,6 +41,9 @@ export class User {
 
     @Column({default: false})
     isAdmin: boolean;
+
+    @OneToMany(() => ShopCart, (shopCart) => shopCart.user)
+    shopCart: Car[];
 
     @AfterInsert()
     logInsert() {
