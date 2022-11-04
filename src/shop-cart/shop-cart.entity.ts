@@ -1,6 +1,12 @@
 import {Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn} from "typeorm";
 import {User} from "../user/user.entity";
 
+export enum orderStatus {
+    ON_CART = "onCart",
+    PENDING = "pending",
+    COMPLETED = "completed",
+}
+
 @Entity()
 export default class ShopCart {
     @PrimaryGeneratedColumn()
@@ -13,6 +19,10 @@ export default class ShopCart {
     carId: number;
 
 
-    @Column({ default: "onCart" })
-    orderStatus: ['onCart', 'pending', 'completed'];
+    @Column({
+        type: "varchar",
+        enum: orderStatus,
+        default: orderStatus.ON_CART
+    })
+    orderStatus: orderStatus;
 }

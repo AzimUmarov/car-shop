@@ -29,7 +29,7 @@ export class UserController {
   @Post('/signup')
   async createUser(@Body() { name, email, password }: CreateUserDto,  @Session() session: Record<string, any>) {
     const user = await this.authService.signup(name, email, password);
-    session.user = user.email;
+    session.user = user;
 
     return user;
   }
@@ -40,7 +40,7 @@ export class UserController {
     if(session.user)
       throw new NotAcceptableException("you already logged in");
 
-    session.user = user.email;
+    session.user = user;
 
     return {
       message: 'Login successful'
